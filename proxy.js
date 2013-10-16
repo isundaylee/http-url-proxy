@@ -4,6 +4,12 @@ http_handler = function(request, response) {
   var url = require('url');
   var params = url.parse(request.url, true).query;
 
+  if (!params.url) {
+    console.log('Request path ' + request.hostname + request.url + ' ignored. '); 
+    response.end(); 
+    return; 
+  }
+
   var target = url.parse(params.url);
   var proxy_request = http.request(target, function(proxy_response) {
     console.log('Request ' + params.url + ' started. ');
